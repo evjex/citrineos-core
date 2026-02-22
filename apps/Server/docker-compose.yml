@@ -82,7 +82,7 @@ services:
       minio-init:
         condition: service_completed_successfully
     ports:
-      - 8080:8080
+      - 18080:8080
       - 8081:8081
       - 8082:8082
       - 8083:8083
@@ -90,6 +90,7 @@ services:
       - 8444:8444
       - 9229:9229
     healthcheck:
+      # container listens on 8080; host maps to 18080
       test: [
           "CMD-SHELL",
           "node -e \"const net = require(\\\"net\\\"); const client =
@@ -143,7 +144,7 @@ services:
     volumes:
       - ./hasura-metadata:/hasura-metadata
     ports:
-      - 8090:8080
+      - 19090:8080
     restart: always
     depends_on:
       citrine:
