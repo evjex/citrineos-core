@@ -174,11 +174,6 @@ export class CitrineOSServer {
     // Set cache implementation
     this._cache = this.initCache(cache);
 
-    // Initialize Swagger if enabled
-    this.initSwagger()
-      .then()
-      .catch((error) => this._logger.error('Could not initialize swagger', { error }));
-
     // Register API authentication
     this.registerApiAuth();
 
@@ -197,6 +192,13 @@ export class CitrineOSServer {
   }
 
   async initialize(): Promise<void> {
+    // Swagger routes must be registered before module API routes.
+    try {
+      await this.initSwagger();
+    } catch (error) {
+      this._logger?.error('Could not initialize swagger', { error });
+    }
+
     await this.initMessageBrokerConnection();
 
     // Initialize module & API
