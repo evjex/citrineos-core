@@ -69,7 +69,7 @@ if [ "$_OCPP_VERSION" = "1.6" ]; then
         awk '
         BEGIN { skip = 0 }
         {
-            if ($0 ~ /^  iso15118_charger:/ || $0 ~ /^  iso15118_car:/) {
+            if ($0 ~ /^  iso15118_charger:/) {
                 skip = 1
                 next
             }
@@ -82,7 +82,7 @@ if [ "$_OCPP_VERSION" = "1.6" ]; then
                 }
             }
 
-            if ($0 ~ /module_id: iso15118_charger/ || $0 ~ /module_id: iso15118_car/) {
+            if ($0 ~ /module_id: iso15118_charger/) {
                 next
             }
 
