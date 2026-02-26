@@ -21,7 +21,10 @@
     "start-docker": "nodemon",
     "start-docker-cloud": "node --inspect=0.0.0.0:9229 ./dist/index.js",
     "start-everest": "cd ./everest && cross-env OCPP_VERSION=2.1 EVEREST_IMAGE_TAG=2025.6.1-dt-esdp docker compose up -d",
+    "start-everest-ws": "cd ./everest && cross-env OCPP_VERSION=2.1 EVEREST_IMAGE_TAG=2025.6.1-dt-esdp EVEREST_TARGET_URL=ws://host.docker.internal:8081/cp001 docker compose up -d",
+    "start-everest-wss": "cd ./everest && cross-env OCPP_VERSION=2.1 EVEREST_IMAGE_TAG=2025.6.1-dt-esdp EVEREST_TARGET_URL=wss://ocpp.rangoru.com/cp001 docker compose up -d",
     "start-everest-16": "cd ./everest && cross-env OCPP_VERSION=1.6 EVEREST_IMAGE_TAG=2025.6.1-dt-esdp docker compose up -d",
+    "start-everest-16-ws": "cd ./everest && cross-env OCPP_VERSION=1.6 EVEREST_IMAGE_TAG=2025.6.1-dt-esdp EVEREST_TARGET_URL=ws://host.docker.internal:8092/ docker compose up -d",
     "migrate": "pnpm exec sequelize-cli db:migrate --debug && echo migration completed successfully",
     "lint": "eslint .",
     "lint-fix": "eslint . --fix"
