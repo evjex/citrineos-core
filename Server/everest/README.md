@@ -25,7 +25,10 @@ the `/Server/everest` directory so that it can pick up the `Dockerfile` and the 
 You will notice that there are two args that are configurable:
 
 - `EVEREST_IMAGE_TAG` - The image tag that will be used for the EVerest image (ghcr.io/everest/everest-demo/manager).
+- `EVEREST_IMAGE_REPOSITORY` - Optional image mirror, for example `git.samasha.ir/samasha/everest-manager` after that mirror has the selected tag.
 - `OCPP_VERSION` - The version of OCPP to run everest for. `start-everest` will handle all 2.x versions for the given 2.x OCPP_VERSION and start-everest-16 is for OCPP1.6 only.
+- `EVEREST_TARGET_URL` - Full OCPP WebSocket URL; defaults to `ws://host.docker.internal:8081/<charge-point-id>`.
+- `EVEREST_CHARGE_POINT_ID` - OCPP station identity; defaults to `cp001`.
 
 After running `npm run start-everest` (or the Windows alternative), you should see 3 running EVerest containers
 and the `manager` container should have the appropriate EVerest logs.

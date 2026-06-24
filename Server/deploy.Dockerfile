@@ -7,6 +7,11 @@ FROM --platform=${BUILDPLATFORM:-linux/amd64} node:24.4.1 AS build
 
 WORKDIR /usr/local/apps/citrineos
 
+# Public npm and nodejs.org are not reliably reachable from our deployment
+# environment. Use the approved mirror and bundled Node headers for node-gyp.
+RUN npm config set registry https://mirror2.chabokan.net/npm/
+ENV npm_config_nodedir=/usr/local
+
 COPY . .
 RUN npm run install-all && npm run build
 

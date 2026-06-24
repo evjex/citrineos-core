@@ -17,6 +17,7 @@ services:
       dockerfile: Dockerfile
       args:
         - EVEREST_IMAGE_TAG=${EVEREST_IMAGE_TAG}
+        - EVEREST_IMAGE_REPOSITORY=${EVEREST_IMAGE_REPOSITORY:-ghcr.io/everest/everest-demo/manager}
     platform: linux/x86_64
     ports:
       - 8888:8888
@@ -31,6 +32,8 @@ services:
       - MQTT_SERVER_ADDRESS=mqtt-server
       - EVEREST_IMAGE_TAG=${EVEREST_IMAGE_TAG}
       - OCPP_VERSION=${OCPP_VERSION}
+      - EVEREST_TARGET_URL=${EVEREST_TARGET_URL}
+      - EVEREST_CHARGE_POINT_ID=${EVEREST_CHARGE_POINT_ID}
     sysctls:
       - net.ipv6.conf.all.disable_ipv6=0
     extra_hosts:
