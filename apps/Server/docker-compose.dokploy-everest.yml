@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: Apache-2.0
 services:
   mqtt-server:
-    image: ghcr.io/everest/everest-demo/mqtt-server:${EVEREST_IMAGE_TAG:-0.0.23}
+    image: ghcr.io/everest/everest-demo/mqtt-server:${EVEREST_IMAGE_TAG:-2025.6.1-dt-esdp}
     platform: linux/x86_64
     logging:
       driver: none
@@ -15,14 +15,16 @@ services:
       dockerfile: ./everest/Dockerfile
       args:
         - EVEREST_TARGET_URL=${EVEREST_TARGET_URL}
-        - EVEREST_IMAGE_TAG=${EVEREST_IMAGE_TAG:-0.0.23}
+        - EVEREST_IMAGE_TAG=${EVEREST_IMAGE_TAG:-2025.6.1-dt-esdp}
+        - EVEREST_IMAGE_REPOSITORY=${EVEREST_IMAGE_REPOSITORY:-ghcr.io/everest/everest-demo/manager}
     platform: linux/x86_64
     depends_on:
       - mqtt-server
     environment:
       - MQTT_SERVER_ADDRESS=${EVEREST_MQTT_SERVER_ADDRESS:-mqtt-server}
       - EVEREST_TARGET_URL=${EVEREST_TARGET_URL}
-      - OCPP_VERSION=${OCPP_VERSION:-two}
+      - EVEREST_CHARGE_POINT_ID=${EVEREST_CHARGE_POINT_ID:-cp001}
+      - OCPP_VERSION=${OCPP_VERSION:-2.1}
     sysctls:
       - net.ipv6.conf.all.disable_ipv6=0
     extra_hosts:
@@ -33,7 +35,7 @@ services:
       - everest_net
 
   nodered:
-    image: ghcr.io/everest/everest-demo/nodered:${EVEREST_IMAGE_TAG:-0.0.23}
+    image: ghcr.io/everest/everest-demo/nodered:${EVEREST_IMAGE_TAG:-2025.6.1-dt-esdp}
     depends_on:
       - mqtt-server
     environment:

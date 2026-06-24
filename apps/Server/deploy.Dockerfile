@@ -9,6 +9,11 @@ RUN corepack enable
 
 WORKDIR /usr/local/apps/citrineos
 
+# Public npm and nodejs.org are not reliably reachable from our deployment
+# environment. Use the approved mirror and bundled Node headers for node-gyp.
+RUN npm config set registry https://mirror2.chabokan.net/npm/
+ENV npm_config_nodedir=/usr/local
+
 COPY . .
 RUN pnpm install --frozen-lockfile
 RUN pnpm --filter "@citrineos/server..." build

@@ -5,7 +5,8 @@
 
 _OCPP_VERSION=$OCPP_VERSION
 OCPP_VERSION_ENUM="OCPP201"
-EVEREST_TARGET_URL="ws://host.docker.internal:8081/cp001"
+CHARGE_POINT_ID="${EVEREST_CHARGE_POINT_ID:-cp001}"
+EVEREST_TARGET_URL="${EVEREST_TARGET_URL:-ws://host.docker.internal:8081/${CHARGE_POINT_ID}}"
 
 case "$_OCPP_VERSION" in
   "1.6")
@@ -57,6 +58,16 @@ JSON
     ' "/ext/dist/share/everest/modules/OCPP201/component_config/standardized/InternalCtrlr.json" \
     > /tmp/config_citrine_dist.json && mv /tmp/config_citrine_dist.json "/ext/dist/share/everest/modules/OCPP201/component_config/standardized/InternalCtrlr.json"
     chmod -x /ext/dist/share/everest/modules/OCPP201/component_config/standardized/InternalCtrlr.json
+
+    # EVerest 2025.6.1 stores the OCPP 2.x identity in component JSON files.
+    # Do not use the legacy SQLite device-model path.
+    if [ "$CHARGE_POINT_ID" != "cp001" ]; then
+        INTERNAL_CTRLR_CONFIG="/ext/dist/share/everest/modules/OCPP201/component_config/standardized/InternalCtrlr.json"
+        SECURITY_CTRLR_CONFIG="/ext/dist/share/everest/modules/OCPP201/component_config/standardized/SecurityCtrlr.json"
+
+        [ -f "$INTERNAL_CTRLR_CONFIG" ] && sed -i "s#cp001#${CHARGE_POINT_ID}#g" "$INTERNAL_CTRLR_CONFIG"
+        [ -f "$SECURITY_CTRLR_CONFIG" ] && sed -i "s#cp001#${CHARGE_POINT_ID}#g" "$SECURITY_CTRLR_CONFIG"
+    fi
 fi
 
 /entrypoint.sh
